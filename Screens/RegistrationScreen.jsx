@@ -7,16 +7,16 @@ import {
   View,
   TextInput,
   KeyboardAvoidingView,
+  Image,
 } from "react-native";
 
 export default function RegistrationScreen() {
-  console.log(Platform.OS);
   const [login, setLogin] = useState("");
   const [mail, setMail] = useState("");
   const [password, setPassword] = useState("");
+  const [PasswordVisibility, setPasswordVisibility] = useState(true);
   const [isInputFocused, setFocus] = useState(false);
   const [showKeyboard, setShowKeyboard] = useState(false);
-  console.log(showKeyboard);
 
   const [fontsLoaded] = useFonts({
     "Roboto-Regular": require("../assets/fonts/Roboto-Regular.ttf"),
@@ -33,7 +33,14 @@ export default function RegistrationScreen() {
       <KeyboardAvoidingView
         behavior={Platform.OS === "android" ? "padding" : "height"}
       >
-        <View style={styles.photo}></View>
+        <View style={styles.photo}>
+          <TouchableOpacity>
+            <Image
+              source={require("../assets/icons/add-active.png")}
+              style={{ top: 79, left: 107.5 }}
+            />
+          </TouchableOpacity>
+        </View>
         <Text style={styles.textTitle}>Реєстрація</Text>
         <View style={styles.inputContainer}>
           <TextInput
@@ -46,11 +53,11 @@ export default function RegistrationScreen() {
             value={login}
             onChangeText={(login) => setLogin(login)}
             onFocus={(prev) => {
-              setFocus({...prev, input1: true });
+              setFocus({ ...prev, input1: true });
               setShowKeyboard(true);
             }}
             onBlur={(prev) => {
-              setFocus({...prev, input1: false });
+              setFocus({ ...prev, input1: false });
               setShowKeyboard(false);
             }}
           />
@@ -67,20 +74,45 @@ export default function RegistrationScreen() {
             onFocus={(prev) => setFocus({ ...prev, input2: true })}
             onBlur={(prev) => setFocus({ ...prev, input2: false })}
           />
-          <TextInput
-            selectionColor={"#FF6C00"}
+          <View
             style={
               isInputFocused.input3 ? styles.inputOnFocus : styles.inputOnBlur
             }
-            placeholder="Пароль"
-            autoComplete="password"
-            name="password"
-            value={password}
-            secureTextEntry={true}
-            onChangeText={(password) => setPassword(password)}
-            onFocus={(prev) => setFocus({ ...prev, input3: true })}
-            onBlur={(prev) => setFocus({ ...prev, input3: false })}
-          />
+          >
+            <TextInput
+              selectionColor={"#FF6C00"}
+              style={{
+                width: "78%",
+                fontFamily: "Roboto",
+                fontStyle: "normal",
+                fontWeight: "400",
+                fontSize: 16,
+                lineHeight: 19,
+                color: "#212121",
+              }}
+              // style={
+              //   isInputFocused.input3 ? styles.inputOnFocus : styles.inputOnBlur
+              // }
+              placeholder="Пароль"
+              autoComplete="password"
+              name="password"
+              value={password}
+              secureTextEntry={PasswordVisibility}
+              onChangeText={(password) => setPassword(password)}
+              onFocus={(prev) => setFocus({ ...prev, input3: true })}
+              onBlur={(prev) => {
+                setFocus({ ...prev, input3: false });
+                setPasswordVisibility(true);
+              }}
+            />
+            <TouchableOpacity
+              onPress={() => {
+                setPasswordVisibility(false);
+              }}
+            >
+              <Text style={styles.PasswordVisibilityText}>Показати</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </KeyboardAvoidingView>
       <TouchableOpacity
@@ -92,7 +124,7 @@ export default function RegistrationScreen() {
       <Text style={styles.linkText}>
         Вже є акаунт?
         <Text
-          style={styles.innerLicnkText}
+          style={styles.innerLinkText}
           onPress={() => console.log("to come in profile")}
         >
           {" "}
@@ -105,13 +137,13 @@ export default function RegistrationScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 2,
-    flexDirection: "column",
-    justifyContent: "flex-end",
-    alignContent: "center",
-    // backgroundColor: "red",
-  },
+  // container: {
+  //   flex: 2,
+  //   flexDirection: "column",
+  //   justifyContent: "flex-end",
+  //   alignContent: "center",
+  //   // backgroundColor: "red",
+  // },
 
   photo: {
     // position: "absolute",
@@ -213,6 +245,7 @@ const styles = StyleSheet.create({
   },
 
   inputOnBlur: {
+    flexDirection: "row",
     alignSelf: "center",
     width: 343,
     height: 50,
@@ -231,6 +264,8 @@ const styles = StyleSheet.create({
   },
 
   inputOnFocus: {
+    flexDirection: "row",
+    alignItems: "baseline",
     alignSelf: "center",
     width: 343,
     height: 50,
@@ -246,5 +281,15 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 19,
     color: "#212121",
+  },
+
+  PasswordVisibilityText: {
+    fontFamily: "Roboto",
+    fontStyle: "normal",
+    fontWeight: 400,
+    fontSize: 16,
+    lineHeight: 19,
+
+    color: "#1B4371",
   },
 });

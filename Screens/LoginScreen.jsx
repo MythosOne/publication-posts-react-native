@@ -6,11 +6,13 @@ import {
   Text,
   View,
   TextInput,
+  KeyboardAvoidingView,
 } from "react-native";
 
 export default function LoginScreen() {
   const [mail, setMail] = useState("");
   const [password, setPassword] = useState("");
+  const [PasswordVisibility, setPasswordVisibility] = useState(true);
   const [isInputFocused, setFocus] = useState(false);
   const [showKeyboard, setShowKeyboard] = useState(false);
 
@@ -23,11 +25,17 @@ export default function LoginScreen() {
   }
 
   return (
-      <View
-        style={styles.loginForm}
+    <View style={styles.loginForm}>
+      <Text style={styles.textTitle}>Увійти</Text>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "android" ? "padding" : "height"}
       >
-        <Text style={styles.textTitle}>Увійти</Text>
-        <View style={styles.inputContainer}>
+        <View
+          style={{
+            ...styles.inputContainer,
+            marginBottom: showKeyboard ? 32 : 43,
+          }}
+        >
           <TextInput
             selectionColor={"#FF6C00"}
             style={
@@ -43,54 +51,76 @@ export default function LoginScreen() {
               setShowKeyboard(true);
             }}
             onBlur={(prev) => {
-              setFocus({ ... prev, input1: false });
-              setShowKeyboard(false);
-            }}
-          />
-          <TextInput
-            selectionColor={"#FF6C00"}
-            style={
-              isInputFocused.input2 ? styles.inputOnFocus : styles.inputOnBlur
-            }
-            placeholder="Пароль"
-            autoComplete="password"
-            name="password"
-            value={password}
-            onChangeText={(password) => setPassword(password)}
-            secureTextEntry={true}
-            onFocus={(prev) => {
-              setFocus({...prev, input2: true });
-              // setShowKeyboard(true);
-            }}
-            onBlur={(prev) => {
-              setFocus({...prev, input2: false });
-              // setShowKeyboard(false);
-            }}
-          />
-        </View>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => console.log("onButtonPress")}
-        >
-          <Text style={styles.buttonText}>Увійти</Text>
-        </TouchableOpacity>
-        <Text style={{...styles.linkText, marginBottom: showKeyboard ? 32 : 111}}>
-          Немає акаунту?
-          <Text
-            style={styles.innerLinkText}
-            onPress={() => console.log("to come in registration")}
-          >
-            {" "}
-            Зареєструватися
-          </Text>
-        </Text>
-      </View>
+              setFocus({ ...prev, input1: false });
+              setShowKeyboard({ ...prev, showKeyboard: false });
 
+            }}
+          />
+          <View
+            style={
+              isInputFocused.input2
+                ? {
+                    ...styles.inputContainerPassword,
+                    backgroundColor: "#FFFFFF",
+                    borderColor: "#FF6C00",
+                  }
+                : {
+                    ...styles.inputContainerPassword,
+                    backgroundColor: "#F6F6F6",
+                    borderColor: "#E8E8E8",
+                  }
+            }
+          >
+            <TextInput
+              selectionColor={"#FF6C00"}
+              style={styles.inputPassword}
+              placeholder="Пароль"
+              autoComplete="password"
+              name="password"
+              value={password}
+              onChangeText={(password) => setPassword(password)}
+              secureTextEntry={PasswordVisibility}
+              onFocus={(prev) => {
+                setFocus({ ...prev, input2: true });
+                setShowKeyboard(true);
+              }}
+              onBlur={(prev) => {
+                setFocus({ ...prev, input2: false });
+                setPasswordVisibility(true);
+                setShowKeyboard({ ...prev, showKeyboard: false });
+              }}
+            />
+            <TouchableOpacity
+              onPress={() => {
+                setPasswordVisibility(false);
+              }}
+            >
+              <Text style={styles.PasswordVisibilityText}>Показати</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </KeyboardAvoidingView>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => console.log("onButtonPress")}
+      >
+        <Text style={styles.buttonText}>Увійти</Text>
+      </TouchableOpacity>
+      <Text style={styles.linkText}>
+        Немає акаунту?
+        <Text
+          style={styles.innerLinkText}
+          onPress={() => console.log("to come in registration")}
+        >
+          {" "}
+          Зареєструватися
+        </Text>
+      </Text>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-
   loginForm: {
     backgroundColor: "#FFFFFF",
     borderTopRightRadius: 25,
@@ -100,9 +130,7 @@ const styles = StyleSheet.create({
   textTitle: {
     marginTop: 32,
     alignSelf: "center",
-    // position: "absolute",
     width: 160,
-    fontWeight: "500",
 
     fontFamily: "Roboto",
     fontStyle: "normal",
@@ -116,19 +144,17 @@ const styles = StyleSheet.create({
   },
 
   button: {
-    // position: "absolute",
-    marginTop: 43,
     alignSelf: "center",
-
     alignItems: "center",
+
     backgroundColor: "#FF6C00",
     width: 300,
     height: 51,
     padding: 16,
+
     borderColor: "#FFFFFF",
     borderWidth: 2,
     borderRadius: 100,
-    marginTop: 50,
   },
 
   buttonText: {
@@ -145,8 +171,8 @@ const styles = StyleSheet.create({
 
   linkText: {
     marginTop: 16,
+    marginBottom: 111,
     alignSelf: "center",
-    // position: "absolute",
 
     color: "#1B4371",
     fontFamily: "Roboto",
@@ -159,7 +185,6 @@ const styles = StyleSheet.create({
   innerLinkText: {
     marginTop: 16,
     alignSelf: "center",
-    // position: "absolute",
 
     color: "#1B4371",
     fontFamily: "Roboto",
@@ -175,10 +200,43 @@ const styles = StyleSheet.create({
     gap: 16,
   },
 
+  inputContainerPassword: {
+    flexDirection: "row",
+    alignItems: "center",
+    alignSelf: "center",
+    padding: 16,
+    width: 343,
+    height: 50,
+    borderWidth: 1,
+    borderRadius: 8,
+  },
+
+  inputPassword: {
+    width: "78%",
+
+    fontFamily: "Roboto",
+    fontStyle: "normal",
+    fontWeight: "400",
+    fontSize: 16,
+    lineHeight: 19,
+    color: "#212121",
+  },
+
+  PasswordVisibilityText: {
+    fontFamily: "Roboto",
+    fontStyle: "normal",
+    fontWeight: 400,
+    fontSize: 16,
+    lineHeight: 19,
+
+    color: "#1B4371",
+  },
+
   inputOnBlur: {
     alignSelf: "center",
     width: 343,
     height: 50,
+
     borderWidth: 1,
     backgroundColor: "#F6F6F6",
     borderColor: "#E8E8E8",
@@ -197,6 +255,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     width: 343,
     height: 50,
+
     borderWidth: 1,
     backgroundColor: "#FFFFFF",
     borderColor: "#FF6C00",
