@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useFonts } from "expo-font";
+import { useNavigation } from "@react-navigation/native";
 import {
   TouchableOpacity,
   StyleSheet,
@@ -7,6 +8,8 @@ import {
   View,
   TextInput,
   KeyboardAvoidingView,
+  Keyboard,
+  TouchableWithoutFeedback,
 } from "react-native";
 
 export default function LoginScreen() {
@@ -16,8 +19,10 @@ export default function LoginScreen() {
   const [isInputFocused, setFocus] = useState(false);
   const [showKeyboard, setShowKeyboard] = useState(false);
 
+  const navigation = useNavigation();
+
   const [fontsLoaded] = useFonts({
-    "Roboto-Regular": require("../assets/fonts/Roboto-Regular.ttf"),
+    "Roboto-Regular": require("../../assets/fonts/Roboto-Regular.ttf"),
   });
 
   if (!fontsLoaded) {
@@ -25,98 +30,99 @@ export default function LoginScreen() {
   }
 
   return (
-    <View style={styles.loginForm}>
-      <Text style={styles.textTitle}>Увійти</Text>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "android" ? "padding" : "height"}
-      >
-        <View
-          style={{
-            ...styles.inputContainer,
-            marginBottom: showKeyboard ? 32 : 43,
-          }}
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <View style={styles.loginForm}>
+        <Text style={styles.textTitle}>Увійти</Text>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "android" ? "padding" : "height"}
         >
-          <TextInput
-            selectionColor={"#FF6C00"}
-            style={
-              isInputFocused.input1 ? styles.inputOnFocus : styles.inputOnBlur
-            }
-            placeholder="Адреса електронної пошти"
-            name="mail"
-            autoComplete="email"
-            value={mail}
-            onChangeText={(mail) => setMail(mail)}
-            onFocus={(prev) => {
-              setFocus({ ...prev, input1: true });
-              setShowKeyboard(true);
-            }}
-            onBlur={(prev) => {
-              setFocus({ ...prev, input1: false });
-              setShowKeyboard({ ...prev, showKeyboard: false });
-
-            }}
-          />
           <View
-            style={
-              isInputFocused.input2
-                ? {
-                    ...styles.inputContainerPassword,
-                    backgroundColor: "#FFFFFF",
-                    borderColor: "#FF6C00",
-                  }
-                : {
-                    ...styles.inputContainerPassword,
-                    backgroundColor: "#F6F6F6",
-                    borderColor: "#E8E8E8",
-                  }
-            }
+            style={{
+              ...styles.inputContainer,
+              marginBottom: showKeyboard ? 32 : 43,
+            }}
           >
             <TextInput
               selectionColor={"#FF6C00"}
-              style={styles.inputPassword}
-              placeholder="Пароль"
-              autoComplete="password"
-              name="password"
-              value={password}
-              onChangeText={(password) => setPassword(password)}
-              secureTextEntry={PasswordVisibility}
+              style={
+                isInputFocused.input1 ? styles.inputOnFocus : styles.inputOnBlur
+              }
+              placeholder="Адреса електронної пошти"
+              name="mail"
+              autoComplete="email"
+              value={mail}
+              onChangeText={(mail) => setMail(mail)}
               onFocus={(prev) => {
-                setFocus({ ...prev, input2: true });
+                setFocus({ ...prev, input1: true });
                 setShowKeyboard(true);
               }}
               onBlur={(prev) => {
-                setFocus({ ...prev, input2: false });
-                setPasswordVisibility(true);
+                setFocus({ ...prev, input1: false });
                 setShowKeyboard({ ...prev, showKeyboard: false });
               }}
             />
-            <TouchableOpacity
-              onPress={() => {
-                setPasswordVisibility(false);
-              }}
+            <View
+              style={
+                isInputFocused.input2
+                  ? {
+                      ...styles.inputContainerPassword,
+                      backgroundColor: "#FFFFFF",
+                      borderColor: "#FF6C00",
+                    }
+                  : {
+                      ...styles.inputContainerPassword,
+                      backgroundColor: "#F6F6F6",
+                      borderColor: "#E8E8E8",
+                    }
+              }
             >
-              <Text style={styles.PasswordVisibilityText}>Показати</Text>
-            </TouchableOpacity>
+              <TextInput
+                selectionColor={"#FF6C00"}
+                style={styles.inputPassword}
+                placeholder="Пароль"
+                autoComplete="password"
+                name="password"
+                value={password}
+                onChangeText={(password) => setPassword(password)}
+                secureTextEntry={PasswordVisibility}
+                onFocus={(prev) => {
+                  setFocus({ ...prev, input2: true });
+                  setShowKeyboard(true);
+                }}
+                onBlur={(prev) => {
+                  setFocus({ ...prev, input2: false });
+                  setPasswordVisibility(true);
+                  setShowKeyboard({ ...prev, showKeyboard: false });
+                }}
+              />
+              <TouchableOpacity
+                onPress={() => {
+                  setPasswordVisibility(false);
+                }}
+              >
+                <Text style={styles.PasswordVisibilityText}>Показати</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
-      </KeyboardAvoidingView>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => console.log("onButtonPress")}
-      >
-        <Text style={styles.buttonText}>Увійти</Text>
-      </TouchableOpacity>
-      <Text style={styles.linkText}>
-        Немає акаунту?
-        <Text
-          style={styles.innerLinkText}
-          onPress={() => console.log("to come in registration")}
+        </KeyboardAvoidingView>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => console.log(`mail: ${mail}, password: ${password}`)}
         >
-          {" "}
-          Зареєструватися
+          <Text style={styles.buttonText}>Увійти</Text>
+        </TouchableOpacity>
+        <Text style={styles.linkText}>
+          Немає акаунту?
+          <Text
+            style={styles.innerLinkText}
+            onPress={() => navigation.navigate("Registration")}
+          >
+            {" "}
+            Зареєструватися
+          </Text>
         </Text>
-      </Text>
-    </View>
+      </View>
+    </TouchableWithoutFeedback>
   );
 }
 
