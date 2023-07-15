@@ -24,7 +24,7 @@ export default function RegistrationScreen() {
   const navigation = useNavigation();
 
   const [fontsLoaded] = useFonts({
-    "Roboto-Regular": require("../../assets/fonts/Roboto-Regular.ttf"),
+    "Roboto-Regular": require("../assets/fonts/Roboto-Regular.ttf"),
   });
 
   if (!fontsLoaded) {
@@ -42,7 +42,7 @@ export default function RegistrationScreen() {
           <View style={styles.photo}>
             <TouchableOpacity>
               <Image
-                source={require("../../assets/icons/add-active.png")}
+                source={require("../assets/icons/add-active.png")}
                 style={{ top: 79, left: 107.5 }}
               />
             </TouchableOpacity>

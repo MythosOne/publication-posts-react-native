@@ -22,7 +22,7 @@ export default function LoginScreen() {
   const navigation = useNavigation();
 
   const [fontsLoaded] = useFonts({
-    "Roboto-Regular": require("../../assets/fonts/Roboto-Regular.ttf"),
+    "Roboto-Regular": require("../assets/fonts/Roboto-Regular.ttf"),
   });
 
   if (!fontsLoaded) {
@@ -107,7 +107,7 @@ export default function LoginScreen() {
         </KeyboardAvoidingView>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => console.log(`mail: ${mail}, password: ${password}`)}
+          onPress={() => navigation.navigate("Home")}
         >
           <Text style={styles.buttonText}>Увійти</Text>
         </TouchableOpacity>

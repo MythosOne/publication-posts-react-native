@@ -37,13 +37,13 @@ export default function PostsScreen() {
             alignItems: "center",
           }}
         >
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => console.log("PostsScreen")}>
             <Image source={require("../assets/icons/grid.png")} />
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => console.log("CreatePostsScreen")}>
             <Image source={require("../assets/icons/rectangle.png")} />
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => console.log("ProfileScreen")}>
             <Image source={require("../assets/icons/user.png")} />
           </TouchableOpacity>
         </View>
