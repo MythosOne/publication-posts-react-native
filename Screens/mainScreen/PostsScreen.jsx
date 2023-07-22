@@ -4,7 +4,7 @@ import { TouchableOpacity, StyleSheet, Text, View, Image } from "react-native";
 
 export default function PostsScreen() {
   const [fontsLoaded] = useFonts({
-    "Roboto-Regular": require("../assets/fonts/Roboto-Regular.ttf"),
+    "Roboto-Regular": require("../../assets/fonts/Roboto-Regular.ttf"),
   });
 
   if (!fontsLoaded) {
@@ -22,13 +22,13 @@ export default function PostsScreen() {
           }}
         >
           <Text style={styles.postTitle}>Публікації</Text>
-          <TouchableOpacity style={{ marginRight: 16 }}>
-            <Image source={require("../assets/icons/log-out.png")} />
+          <TouchableOpacity style={{ marginRight: 16 }} onPress={()=> console.log("ExitPosts")}>
+            <Image source={require("../../assets/icons/log-out.png")} />
           </TouchableOpacity>
         </View>
       </View>
-      <View style={styles.posts}></View>
-      <View style={styles.postFooter}>
+      <View style={styles.posts}/>
+      {/* <View style={styles.postFooter}>
         <View
           style={{
             marginTop: 9,
@@ -38,16 +38,16 @@ export default function PostsScreen() {
           }}
         >
           <TouchableOpacity onPress={() => console.log("PostsScreen")}>
-            <Image source={require("../assets/icons/grid.png")} />
+            <Image source={require("../../assets/icons/grid.png")} />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => console.log("CreatePostsScreen")}>
-            <Image source={require("../assets/icons/rectangle.png")} />
+            <Image source={require("../../assets/icons/rectangle.png")} />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => console.log("ProfileScreen")}>
-            <Image source={require("../assets/icons/user.png")} />
+            <Image source={require("../../assets/icons/user.png")} />
           </TouchableOpacity>
         </View>
-      </View>
+      </View> */}
     </View>
   );
 }

@@ -1,43 +1,41 @@
 import React from "react";
-import { StatusBar } from "expo-status-bar";
 // import { ImageBackground, StyleSheet, View } from "react-native";
+import { StatusBar } from "expo-status-bar";
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
-import RegistrationScreen from "./components/RegistrationScreen";
-import LoginScreen from "./components/LoginScreen";
-import Home from "./screens/Home";
-import CreatePostsScreen from "./screens/CreatePostsScreen";
-import ProfileScreen from "./screens/ProfileScreen";
-// import PostsScreen from "./screens/PostsScreen";
 
-const MainStack = createStackNavigator();
+import { useRoute } from "./router";
 
 export default function App() {
+  const routing = useRoute({});
+
   return (
     <NavigationContainer>
-      {/* <View style={styles.container}>
-        <ImageBackground
-          source={require("./assets/images/backgroundImage.png")}
-          resizeMode="cover"
-          style={styles.image}
-        > */}
-      <MainStack.Navigator initialRouteName="Login">
-        <MainStack.Screen name="Login" component={LoginScreen} />
-        <MainStack.Screen name="Registration" component={RegistrationScreen} />
-        <MainStack.Screen name="Home" component={Home} />
-        <MainStack.Screen
-          name="CreatePostsScreen"
-          component={CreatePostsScreen}
-        />
-        <MainStack.Screen name="ProfileScreen" component={ProfileScreen} />
-      </MainStack.Navigator>
+      {routing}
       <StatusBar style="auto" />
-      {/* <StatusBar style="auto" />
-        </ImageBackground>
-      </View> */}
     </NavigationContainer>
   );
 }
+
+// {/* <View style={styles.container}>
+//   <ImageBackground
+//     source={require("./assets/images/backgroundImage.png")}
+//     resizeMode="cover"
+//     style={styles.image}
+//   > */}
+//   <MainStack.Navigator initialRouteName="Login">
+//   <MainStack.Screen name="Login" component={LoginScreen} />
+//   <MainStack.Screen name="Registration" component={RegistrationScreen} />
+//   <MainStack.Screen name="Home" component={Home} />
+//   {/* <MainStack.Screen
+//     name="CreatePostsScreen"
+//     component={CreatePostsScreen}
+//   />
+//   <MainStack.Screen name="ProfileScreen" component={ProfileScreen} /> */}
+// </MainStack.Navigator>
+// <StatusBar style="auto" />
+// {/* <StatusBar style="auto" />
+//   </ImageBackground>
+// </View> */}
 
 // const styles = StyleSheet.create({
 //   container: {
