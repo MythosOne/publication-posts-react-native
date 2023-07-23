@@ -153,7 +153,6 @@ const styles = StyleSheet.create({
   //   alignContent: "center",
   //   // backgroundColor: "red",
   // },
-
   photo: {
     // position: "absolute",
     zIndex: 1,
