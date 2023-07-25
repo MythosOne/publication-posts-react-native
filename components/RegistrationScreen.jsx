@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
     marginTop: 43,
     alignSelf: "center",
 
-    alignItems: "center",
+    // alignItems: "center",
     backgroundColor: "#FF6C00",
     width: 300,
     height: 51,

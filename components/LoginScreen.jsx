@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
 
   button: {
     alignSelf: "center",
-    alignItems: "center",
+    // alignItems: "center",
 
     backgroundColor: "#FF6C00",
     width: 300,
