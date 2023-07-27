@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { useFonts } from "expo-font";
 import {
   View,
@@ -7,10 +7,14 @@ import {
   TouchableOpacity,
   TextInput,
 } from "react-native";
-import { Camera, CameraType } from "expo-camera";
+import { Camera } from "expo-camera";
 import * as Icon from "react-native-feather";
 
 export default CreatePostsScreen = () => {
+  const [type, setType] = useState("");
+  const [camera, setCamera] = useState(null);
+  const [photo, setPhoto] = useState(null);
+
   const [fontsLoaded] = useFonts({
     "Roboto-Regular": require("../../assets/fonts/Roboto-Regular.ttf"),
   });
@@ -19,12 +23,18 @@ export default CreatePostsScreen = () => {
     return null;
   }
 
+  const takePhoto = async () => {
+    const photo = await camera.takePictureAsync();
+    setPhoto(photo.uri);
+    console.log("photo", photo);
+  };
+
   return (
     <View style={styles.container}>
-      <Camera style={styles.camera}>
+      <Camera style={styles.camera} type={type} ref={setCamera}>
         <TouchableOpacity
           onPress={() => {
-            console.log("Snap Camera");
+            takePhoto();
           }}
           style={styles.snapContainer}
         >
@@ -103,7 +113,6 @@ const styles = StyleSheet.create({
     borderRadius: 100,
 
     backgroundColor: "#FF6C00",
-
   },
 
   buttonText: {
