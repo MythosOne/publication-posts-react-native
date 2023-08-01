@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { useFonts } from "expo-font";
 import {
   View,
@@ -6,11 +6,13 @@ import {
   StyleSheet,
   TouchableOpacity,
   TextInput,
+  Image,
 } from "react-native";
 import { Camera } from "expo-camera";
 import * as Icon from "react-native-feather";
+import * as Location from "expo-location";
 
-export default CreatePostsScreen = () => {
+export default CreatePostsScreen = ({ navigation }) => {
   const [type, setType] = useState("");
   const [camera, setCamera] = useState(null);
   const [photo, setPhoto] = useState(null);
@@ -29,9 +31,27 @@ export default CreatePostsScreen = () => {
     console.log("photo", photo);
   };
 
+  const sendPhoto = () => {
+    navigation.navigate("PostsScreen", { photo });
+    console.log("navigation", navigation);
+  };
+
+  const currentLocation = async () => {
+    const location = await Location.getCurrentPositionAsync();
+    console.log("Location", location);
+  };
+
   return (
     <View style={styles.container}>
       <Camera style={styles.camera} type={type} ref={setCamera}>
+        {photo && (
+          <View style={styles.cameraPhoto}>
+            <Image
+              source={{ uri: photo }}
+              style={{ height: 230, width: "100%" }}
+            />
+          </View>
+        )}
         <TouchableOpacity
           onPress={() => {
             takePhoto();
@@ -43,12 +63,13 @@ export default CreatePostsScreen = () => {
       </Camera>
       <Text>Завантажте фото</Text>
       <TextInput style={styles.inputName} placeholder="Назва..." />
-      <TextInput style={styles.inputLocality} placeholder="Mісцевість" />
+      <TextInput style={styles.inputLocality} placeholder="Місцевість" />
       {/* <Icon.MapPin name="map-pin" size={24} color={"#BDBDBD"} /> */}
       <TouchableOpacity
         style={styles.buttonPublish}
         onPress={() => {
-          console.log("Publish Post");
+          sendPhoto();
+          currentLocation();
         }}
       >
         <Text style={styles.buttonText}>Опубліковати</Text>
@@ -77,7 +98,10 @@ const styles = StyleSheet.create({
   },
 
   camera: {
+    position: "relative",
     marginTop: 32,
+    // marginHorizontal: 16,
+    borderRadius: 8,
     height: 240,
     width: "90%",
     justifyContent: "center",
@@ -125,5 +149,17 @@ const styles = StyleSheet.create({
     lineHeight: 19,
     textAlign: "center",
     color: "#FFFFFF",
+  },
+
+  cameraPhoto: {
+    position: "absolute",
+    marginTop: 32,
+    height: "100%",
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 3,
+    borderRadius: 8,
+    borderColor: "#FF6C00",
   },
 });

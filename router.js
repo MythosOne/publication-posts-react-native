@@ -1,7 +1,7 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-// import { TouchableOpacity, Image } from "react-native";
+import { TouchableOpacity, Image } from "react-native";
 import * as Icon from "react-native-feather";
 
 const AuthStack = createStackNavigator();
@@ -62,7 +62,7 @@ export const useRoute = (isAuth) => {
       />
       <MainTab.Screen
         options={{
-          tabBarIcon: ({ focused, size, color }) => (
+          tabBarIcon: () => (
             <Icon.Plus name="plus" size={24} color={"#878787"} />
           ),
           title: "Створити публікацію",

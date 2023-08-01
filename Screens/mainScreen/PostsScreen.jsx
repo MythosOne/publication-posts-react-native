@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { useFonts } from "expo-font";
 import { TouchableOpacity, StyleSheet, Text, View, Image } from "react-native";
 
-export default function PostsScreen() {
+export default function PostsScreen({route}) {
+  console.log("route.params", route.params);
   const [fontsLoaded] = useFonts({
     "Roboto-Regular": require("../../assets/fonts/Roboto-Regular.ttf"),
   });
