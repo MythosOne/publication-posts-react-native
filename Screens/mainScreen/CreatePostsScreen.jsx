@@ -37,6 +37,12 @@ export default CreatePostsScreen = ({ navigation }) => {
   };
 
   const currentLocation = async () => {
+    let { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== "granted") {
+      setErrorMsg("Permission to access location was denied");
+      return;
+    }
+    
     const location = await Location.getCurrentPositionAsync();
     console.log("Location", location);
   };
