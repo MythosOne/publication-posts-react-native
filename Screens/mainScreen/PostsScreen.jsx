@@ -1,9 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useFonts } from "expo-font";
-import { TouchableOpacity, StyleSheet, Text, View, Image } from "react-native";
+import { TouchableOpacity, StyleSheet, Text, View, Image, FlatList } from "react-native";
 
-export default function PostsScreen({route}) {
+export default function PostsScreen({ route }) {
+  const [posts, setPosts] = useState([]);
+
   console.log("route.params", route.params);
+
+  useEffect(() => {
+    if (route.params) {
+      setPosts((prevState) => [...prevState, route.params]);
+    }
+  }, [route.params]);
+  console.log("posts", posts);
+
   const [fontsLoaded] = useFonts({
     "Roboto-Regular": require("../../assets/fonts/Roboto-Regular.ttf"),
   });
