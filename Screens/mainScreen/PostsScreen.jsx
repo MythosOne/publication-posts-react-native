@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useFonts } from "expo-font";
-import { TouchableOpacity, StyleSheet, Text, View, Image, FlatList } from "react-native";
+import {
+  TouchableOpacity,
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  FlatList,
+} from "react-native";
+import * as Icon from "react-native-feather";
 
 export default function PostsScreen({ route }) {
   const [posts, setPosts] = useState([]);
@@ -24,7 +32,37 @@ export default function PostsScreen({ route }) {
 
   return (
     <View style={styles.container}>
-      <Text>PostsScreen</Text>
+      <FlatList
+        data={posts}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item }) => (
+          <View
+            style={{
+              marginBottom: 10,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Image
+              source={{ uri: item.photo }}
+              style={{ marginTop: 30, width: 300, height: 200 }}
+            />
+            <View style = {{flexDirection: "row", justifyContent: "space-between",}}>
+              <TouchableOpacity onPress={() => {}}>
+                <Icon.MessageCircle
+                  name="message"
+                  size={24}
+                  color={"#BDBDBD"}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => {}}>
+                <Icon.MapPin name="message" size={24} color={"#BDBDBD"} />
+              </TouchableOpacity>
+              <Text>qwerty</Text>
+            </View>
+          </View>
+        )}
+      />
     </View>
     // <View style={styles.postScreen}>
     //   <View style={styles.postHeader}>
@@ -70,7 +108,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center",
+    // alignItems: "center",
   },
 });
 
