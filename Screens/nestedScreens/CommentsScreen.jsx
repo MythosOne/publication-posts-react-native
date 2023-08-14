@@ -1,11 +1,10 @@
 import React from "react";
 import { useFonts } from "expo-font";
-import PostsScreen from "./mainScreen/PostsScreen";
-import { View, StyleSheet } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 
-export default Home = () => {
+export default CommentsScreen = () => {
   const [fontsLoaded] = useFonts({
-    "Roboto-Regular": require("../assets/fonts/Roboto-Regular.ttf"),
+    "Roboto-Regular": require("../../assets/fonts/Roboto-Regular.ttf"),
   });
 
   if (!fontsLoaded) {
@@ -14,7 +13,7 @@ export default Home = () => {
 
   return (
     <View style={styles.container}>
-      <PostsScreen />
+      <Text>CommentsScreen</Text>
     </View>
   );
 };

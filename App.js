@@ -25,34 +25,3 @@ export default function App() {
   );
 }
 
-// {/* <View style={styles.container}>
-//   <ImageBackground
-//     source={require("./assets/images/backgroundImage.png")}
-//     resizeMode="cover"
-//     style={styles.image}
-//   > */}
-//   <MainStack.Navigator initialRouteName="Login">
-//   <MainStack.Screen name="Login" component={LoginScreen} />
-//   <MainStack.Screen name="Registration" component={RegistrationScreen} />
-//   <MainStack.Screen name="Home" component={Home} />
-//   {/* <MainStack.Screen
-//     name="CreatePostsScreen"
-//     component={CreatePostsScreen}
-//   />
-//   <MainStack.Screen name="ProfileScreen" component={ProfileScreen} /> */}
-// </MainStack.Navigator>
-// <StatusBar style="auto" />
-// {/* <StatusBar style="auto" />
-//   </ImageBackground>
-// </View> */}
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//   },
-//   image: {
-//     flex: 1,
-//     resizeMode: "cover",
-//     justifyContent: "flex-end",
-//   },
-// });

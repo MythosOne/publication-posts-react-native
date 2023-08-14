@@ -32,7 +32,7 @@ export default CreatePostsScreen = ({ navigation }) => {
   };
 
   const sendPhoto = () => {
-    navigation.navigate("PostsScreen", { photo });
+    navigation.navigate("Home", { photo });
     console.log("navigation", navigation);
   };
 
@@ -42,7 +42,7 @@ export default CreatePostsScreen = ({ navigation }) => {
       setErrorMsg("Permission to access location was denied");
       return;
     }
-    
+
     const location = await Location.getCurrentPositionAsync();
     console.log("Location", location);
   };
@@ -74,8 +74,10 @@ export default CreatePostsScreen = ({ navigation }) => {
       <TouchableOpacity
         style={styles.buttonPublish}
         onPress={() => {
-          sendPhoto();
-          currentLocation();
+          if (photo) {
+            sendPhoto();
+            currentLocation();
+          }
         }}
       >
         <Text style={styles.buttonText}>Опубліковати</Text>

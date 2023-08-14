@@ -30,16 +30,6 @@ export const useRoute = (isAuth) => {
           tabBarIcon: ({ focused, size, color }) => (
             <Icon.Grid name="grid" size={24} color={"#878787"} />
           ),
-          // tabBarIcon: () => (
-          //   <TouchableOpacity
-          //     // style={{ marginRight: 16 }}
-          //     onPress={onPress}
-          //     onLongPress={onLongPress}
-          //   >
-          //     <Icon.Grid name="grid" size={24} color={"#878787"} />
-          //     {/* <Image source={require("./assets/icons/add-active.png")} /> */}
-          //   </TouchableOpacity>
-          // ),
           headerStyle: {
             height: 88,
             borderBottomWidth: 1,

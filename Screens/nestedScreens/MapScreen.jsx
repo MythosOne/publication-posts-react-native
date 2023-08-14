@@ -2,9 +2,9 @@ import React from "react";
 import { useFonts } from "expo-font";
 import { View, Text, StyleSheet } from "react-native";
 
-export default CommentsScreen = () => {
+export default MapScreen = () => {
   const [fontsLoaded] = useFonts({
-    "Roboto-Regular": require("../assets/fonts/Roboto-Regular.ttf"),
+    "Roboto-Regular": require("../../assets/fonts/Roboto-Regular.ttf"),
   });
 
   if (!fontsLoaded) {
@@ -13,7 +13,7 @@ export default CommentsScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Text>CommentsScreen</Text>
+      <Text>MapScreen</Text>
     </View>
   );
 };
