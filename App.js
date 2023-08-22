@@ -4,6 +4,9 @@ import { useFonts } from "expo-font";
 import { StatusBar } from "expo-status-bar";
 import { NavigationContainer } from "@react-navigation/native";
 
+import { Provider } from "react-redux";
+import { store } from "./redux/store";
+
 import { useRoute } from "./router";
 
 export default function App() {
@@ -15,13 +18,14 @@ export default function App() {
     return null;
   }
 
-  const routing = useRoute({});
+  const routing = useRoute(false);
 
   return (
-    <NavigationContainer>
-      {routing}
-      <StatusBar style="auto" />
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        {routing}
+        <StatusBar style="auto" />
+      </NavigationContainer>
+    </Provider>
   );
 }
-
