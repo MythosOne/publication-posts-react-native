@@ -12,14 +12,25 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
 } from "react-native";
+import {useDispatch} from "react-redux";
+
+import { authSignOutUser } from "../redux/auth/authOperations";
+
+const initialState = {
+  login: "",
+  email: "",
+  password: "",
+};
 
 export default function RegistrationScreen() {
-  const [login, setLogin] = useState("");
-  const [mail, setMail] = useState("");
-  const [password, setPassword] = useState("");
+
+  const [state, setState] = useState(initialState);
+
   const [PasswordVisibility, setPasswordVisibility] = useState(true);
   const [isInputFocused, setFocus] = useState(false);
   const [showKeyboard, setShowKeyboard] = useState(false);
+
+  const dispatch = useDispatch();
 
   const navigation = useNavigation();
 
@@ -30,6 +41,13 @@ export default function RegistrationScreen() {
   if (!fontsLoaded) {
     return null;
   }
+
+  const handleSubmit = () => {
+    setShowKeyboard(false);
+    Keyboard.dismiss();
+    dispatch(authSignOutUser(state));
+    setState(initialState);
+  };
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -56,8 +74,10 @@ export default function RegistrationScreen() {
               }
               placeholder="Логін"
               name="username"
-              value={login}
-              onChangeText={(login) => setLogin(login)}
+              value={state.login}
+              onChangeText={(value) =>
+                setState((prevState) => ({ ...prevState, login: value }))
+              }
               onFocus={(prev) => {
                 setFocus({ ...prev, input1: true });
                 setShowKeyboard(true);
@@ -73,10 +93,12 @@ export default function RegistrationScreen() {
                 isInputFocused.input2 ? styles.inputOnFocus : styles.inputOnBlur
               }
               placeholder="Адреса електронної пошти"
-              name="mail"
+              name="email"
               autoComplete="email"
-              value={mail}
-              onChangeText={(mail) => setMail(mail)}
+              value={state.email}
+              onChangeText={(value) =>
+                setState((prevState) => ({ ...prevState, email: value }))
+              }
               onFocus={(prev) => setFocus({ ...prev, input2: true })}
               onBlur={(prev) => setFocus({ ...prev, input2: false })}
             />
@@ -102,9 +124,11 @@ export default function RegistrationScreen() {
                 placeholder="Пароль"
                 autoComplete="password"
                 name="password"
-                value={password}
+                value={state.password}
                 secureTextEntry={PasswordVisibility}
-                onChangeText={(password) => setPassword(password)}
+                onChangeText={(value) =>
+                  setState((prevState) => ({ ...prevState, password: value }))
+                }
                 onFocus={(prev) => setFocus({ ...prev, input3: true })}
                 onBlur={(prev) => {
                   setFocus({ ...prev, input3: false });
@@ -121,12 +145,7 @@ export default function RegistrationScreen() {
             </View>
           </View>
         </KeyboardAvoidingView>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() =>
-            console.log(`login: ${login}, mail: ${mail}, password: ${password}`)
-          }
-        >
+        <TouchableOpacity style={styles.button} onPress={handleSubmit}>
           <Text style={styles.buttonText}>Зареєструватися</Text>
         </TouchableOpacity>
         <Text style={styles.linkText}>
@@ -291,7 +310,7 @@ const styles = StyleSheet.create({
   PasswordVisibilityText: {
     fontFamily: "Roboto",
     fontStyle: "normal",
-    fontWeight: 400,
+    fontWeight: "400",
     fontSize: 16,
     lineHeight: 19,
 

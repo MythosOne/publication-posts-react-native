@@ -12,9 +12,15 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 
+const initialState = {
+  email: "",
+  password: "",
+};
+
 export default function LoginScreen() {
-  const [mail, setMail] = useState("");
-  const [password, setPassword] = useState("");
+  
+  const [state, setState] = useState(initialState);
+
   const [PasswordVisibility, setPasswordVisibility] = useState(true);
   const [isInputFocused, setFocus] = useState(false);
   const [showKeyboard, setShowKeyboard] = useState(false);
@@ -28,6 +34,13 @@ export default function LoginScreen() {
   if (!fontsLoaded) {
     return null;
   }
+
+  const keyboardHide = () => {
+    setShowKeyboard(false);
+    Keyboard.dismiss();
+    console.log(state);
+    setState(initialState);
+  };
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -48,10 +61,12 @@ export default function LoginScreen() {
                 isInputFocused.input1 ? styles.inputOnFocus : styles.inputOnBlur
               }
               placeholder="Адреса електронної пошти"
-              name="mail"
+              name="email"
               autoComplete="email"
-              value={mail}
-              onChangeText={(mail) => setMail(mail)}
+              value={state.email}
+              onChangeText={(value) =>
+                setState((prevState) => ({ ...prevState, email: value }))
+              }
               onFocus={(prev) => {
                 setFocus({ ...prev, input1: true });
                 setShowKeyboard(true);
@@ -82,8 +97,13 @@ export default function LoginScreen() {
                 placeholder="Пароль"
                 autoComplete="password"
                 name="password"
-                value={password}
-                onChangeText={(password) => setPassword(password)}
+                value={state.password}
+                onChangeText={(value) =>
+                  setState((prevState) => ({
+                    ...prevState,
+                    password: value,
+                  }))
+                }
                 secureTextEntry={PasswordVisibility}
                 onFocus={(prev) => {
                   setFocus({ ...prev, input2: true });
@@ -107,7 +127,7 @@ export default function LoginScreen() {
         </KeyboardAvoidingView>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate("Home")}
+          onPress={keyboardHide}
         >
           <Text style={styles.buttonText}>Увійти</Text>
         </TouchableOpacity>
@@ -231,7 +251,7 @@ const styles = StyleSheet.create({
   PasswordVisibilityText: {
     fontFamily: "Roboto",
     fontStyle: "normal",
-    fontWeight: 400,
+    fontWeight: "400",
     fontSize: 16,
     lineHeight: 19,
 
