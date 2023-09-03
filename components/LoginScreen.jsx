@@ -8,6 +8,7 @@ import {
   View,
   TextInput,
   KeyboardAvoidingView,
+  Platform,
   Keyboard,
   TouchableWithoutFeedback,
 } from "react-native";
@@ -18,12 +19,13 @@ const initialState = {
 };
 
 export default function LoginScreen() {
-  
   const [state, setState] = useState(initialState);
 
   const [PasswordVisibility, setPasswordVisibility] = useState(true);
   const [isInputFocused, setFocus] = useState(false);
   const [showKeyboard, setShowKeyboard] = useState(false);
+
+  // console.log(showKeyboard)
 
   const navigation = useNavigation();
 
@@ -38,109 +40,110 @@ export default function LoginScreen() {
   const keyboardHide = () => {
     setShowKeyboard(false);
     Keyboard.dismiss();
-    console.log(state);
     setState(initialState);
+    console.log(state);
   };
 
   return (
-    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <View style={styles.loginForm}>
-        <Text style={styles.textTitle}>Увійти</Text>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "android" ? "padding" : "height"}
-        >
-          <View
-            style={{
-              ...styles.inputContainer,
-              marginBottom: showKeyboard ? 32 : 43,
-            }}
+    <TouchableWithoutFeedback onPress={keyboardHide}>
+      <View style={{ flex: 1, justifyContent: "flex-end" }}>
+        <View style={styles.loginForm}>
+          <Text style={styles.textTitle}>Увійти</Text>
+          <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
           >
-            <TextInput
-              selectionColor={"#FF6C00"}
-              style={
-                isInputFocused.input1 ? styles.inputOnFocus : styles.inputOnBlur
-              }
-              placeholder="Адреса електронної пошти"
-              name="email"
-              autoComplete="email"
-              value={state.email}
-              onChangeText={(value) =>
-                setState((prevState) => ({ ...prevState, email: value }))
-              }
-              onFocus={(prev) => {
-                setFocus({ ...prev, input1: true });
-                setShowKeyboard(true);
-              }}
-              onBlur={(prev) => {
-                setFocus({ ...prev, input1: false });
-                setShowKeyboard({ ...prev, showKeyboard: false });
-              }}
-            />
             <View
-              style={
-                isInputFocused.input2
-                  ? {
-                      ...styles.inputContainerPassword,
-                      backgroundColor: "#FFFFFF",
-                      borderColor: "#FF6C00",
-                    }
-                  : {
-                      ...styles.inputContainerPassword,
-                      backgroundColor: "#F6F6F6",
-                      borderColor: "#E8E8E8",
-                    }
-              }
+              style={{
+                ...styles.inputContainer,
+                marginBottom: showKeyboard ? 105 : 45,
+              }}
             >
               <TextInput
                 selectionColor={"#FF6C00"}
-                style={styles.inputPassword}
-                placeholder="Пароль"
-                autoComplete="password"
-                name="password"
-                value={state.password}
-                onChangeText={(value) =>
-                  setState((prevState) => ({
-                    ...prevState,
-                    password: value,
-                  }))
+                style={
+                  isInputFocused.input1
+                    ? styles.inputOnFocus
+                    : styles.inputOnBlur
                 }
-                secureTextEntry={PasswordVisibility}
+                placeholder="Адреса електронної пошти"
+                name="email"
+                autoComplete="email"
+                value={state.email}
+                onChangeText={(value) =>
+                  setState((prevState) => ({ ...prevState, email: value }))
+                }
                 onFocus={(prev) => {
-                  setFocus({ ...prev, input2: true });
+                  setFocus({ ...prev, input1: true });
                   setShowKeyboard(true);
                 }}
                 onBlur={(prev) => {
-                  setFocus({ ...prev, input2: false });
-                  setPasswordVisibility(true);
-                  setShowKeyboard({ ...prev, showKeyboard: false });
+                  setFocus({ ...prev, input1: false });
+                  // setShowKeyboard(false);
                 }}
               />
-              <TouchableOpacity
-                onPress={() => {
-                  setPasswordVisibility(false);
-                }}
+              <View
+                style={
+                  isInputFocused.input2
+                    ? {
+                        ...styles.inputContainerPassword,
+                        backgroundColor: "#FFFFFF",
+                        borderColor: "#FF6C00",
+                      }
+                    : {
+                        ...styles.inputContainerPassword,
+                        backgroundColor: "#F6F6F6",
+                        borderColor: "#E8E8E8",
+                      }
+                }
               >
-                <Text style={styles.PasswordVisibilityText}>Показати</Text>
-              </TouchableOpacity>
+                <TextInput
+                  selectionColor={"#FF6C00"}
+                  style={styles.inputPassword}
+                  placeholder="Пароль"
+                  autoComplete="password"
+                  name="password"
+                  value={state.password}
+                  onChangeText={(value) =>
+                    setState((prevState) => ({
+                      ...prevState,
+                      password: value,
+                    }))
+                  }
+                  secureTextEntry={PasswordVisibility}
+                  onFocus={(prev) => {
+                    setFocus({ ...prev, input2: true });
+                    setShowKeyboard(true);
+                  }}
+                  onBlur={(prev) => {
+                    setFocus({ ...prev, input2: false });
+                    setPasswordVisibility(true);
+                    // setShowKeyboard(false);
+                  }}
+                />
+                <TouchableOpacity
+                  onPress={() => {
+                    setPasswordVisibility(false);
+                  }}
+                >
+                  <Text style={styles.PasswordVisibilityText}>Показати</Text>
+                </TouchableOpacity>
+              </View>
             </View>
-          </View>
-        </KeyboardAvoidingView>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={keyboardHide}
-        >
-          <Text style={styles.buttonText}>Увійти</Text>
-        </TouchableOpacity>
-        <Text style={styles.linkText}>
-          Немає акаунту?
-          <Text
-            style={styles.innerLinkText}
-            onPress={() => navigation.navigate("Registration")}
-          >
-            {" "}
-            Зареєструватися
+          </KeyboardAvoidingView>
+          <TouchableOpacity style={styles.button} onPress={keyboardHide}>
+            <Text style={styles.buttonText}>Увійти</Text>
+          </TouchableOpacity>
+          <Text style={styles.linkText}>
+            Немає акаунту?
+            <Text
+              style={styles.innerLinkText}
+              onPress={() => navigation.navigate("Registration")}
+            >
+              {" "}
+              Зареєструватися
+            </Text>
           </Text>
-        </Text>
+        </View>
       </View>
     </TouchableWithoutFeedback>
   );
@@ -155,6 +158,7 @@ const styles = StyleSheet.create({
 
   textTitle: {
     marginTop: 32,
+    marginBottom: 32,
     alignSelf: "center",
     width: 160,
 
@@ -222,7 +226,7 @@ const styles = StyleSheet.create({
   },
 
   inputContainer: {
-    marginTop: 32,
+    // marginTop: 32,
     gap: 16,
   },
 
